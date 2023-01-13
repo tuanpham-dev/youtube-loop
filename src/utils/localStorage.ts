@@ -1,4 +1,4 @@
-import { State } from "../store/types"
+import { State } from '../store/types'
 
 export const loadState = (): State | undefined => {
   try {

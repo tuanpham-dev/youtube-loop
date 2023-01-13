@@ -2,7 +2,12 @@ import React, { FunctionComponent, useState, useRef, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { State, Video as TypeVideo } from '../../store/types'
 import { Dispatch } from 'redux'
-import { removeVideo, editVideo, playVideo, playNextVideo } from '../../store/actions'
+import {
+  removeVideo,
+  editVideo,
+  playVideo,
+  playNextVideo,
+} from '../../store/actions'
 import { SITE_TITLE, YOUTUBE_PLAYER_STATE_PLAYING } from '../../utils/constants'
 import YouTube from './YouTube'
 import Button from '../Button/Button'
@@ -13,7 +18,7 @@ import './Video.css'
 
 const mapStateToProps = (state: State) => ({
   videos: state.videos,
-  playingVideo: state.playingVideo
+  playingVideo: state.playingVideo,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -28,7 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
   playNextVideo: () => {
     dispatch(playNextVideo())
-  }
+  },
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -38,7 +43,15 @@ type VideoProps = PropsFromRedux & {
   video: TypeVideo
 }
 
-export const Video: FunctionComponent<VideoProps> = ({ video, videos, playingVideo, removeVideo, editVideo, playVideo, playNextVideo }) => {
+export const Video: FunctionComponent<VideoProps> = ({
+  video,
+  videos,
+  playingVideo,
+  removeVideo,
+  editVideo,
+  playVideo,
+  playNextVideo,
+}) => {
   const [player, setPlayer] = useState<any>(null)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const [duration, setDuration] = useState(0)
@@ -58,7 +71,7 @@ export const Video: FunctionComponent<VideoProps> = ({ video, videos, playingVid
 
       editVideo({
         ...video,
-        volume
+        volume,
       })
     }
   }
@@ -76,7 +89,7 @@ export const Video: FunctionComponent<VideoProps> = ({ video, videos, playingVid
       editVideo({
         ...video,
         start: range[0],
-        end: range[1]
+        end: range[1],
       })
     }
   }
@@ -97,7 +110,7 @@ export const Video: FunctionComponent<VideoProps> = ({ video, videos, playingVid
           ...video,
           volume: player.getVolume(),
           start: 0,
-          end: duration
+          end: duration,
         })
 
         if (isPlaying) {
@@ -138,7 +151,11 @@ export const Video: FunctionComponent<VideoProps> = ({ video, videos, playingVid
         setVideoVolume(volume)
       }
 
-      if (typeof video.end === 'number' && playerState === YOUTUBE_PLAYER_STATE_PLAYING && currentTime > video.end) {
+      if (
+        typeof video.end === 'number' &&
+        playerState === YOUTUBE_PLAYER_STATE_PLAYING &&
+        currentTime > video.end
+      ) {
         onEnded()
       }
     }
@@ -170,7 +187,7 @@ export const Video: FunctionComponent<VideoProps> = ({ video, videos, playingVid
         if (container.current !== null) {
           container.current.scrollIntoView({
             behavior: 'smooth',
-            block: 'center'
+            block: 'center',
           })
         }
       } else {
@@ -178,27 +195,56 @@ export const Video: FunctionComponent<VideoProps> = ({ video, videos, playingVid
         document.title = SITE_TITLE
       }
     }
-  }, [player, isPlaying, title, playingStateChanged, video.volume, video.start, video.end])
+  }, [
+    player,
+    isPlaying,
+    title,
+    playingStateChanged,
+    video.volume,
+    video.start,
+    video.end,
+  ])
 
   return (
     <div ref={container} className={className}>
       <div className="video__player">
-        <YouTube youtubeId={video.youtubeId} onReady={onVideoLoaded} onPlaying={onPlaying} onEnded={onEnded} onError={onError} />
+        <YouTube
+          youtubeId={video.youtubeId}
+          onReady={onVideoLoaded}
+          onPlaying={onPlaying}
+          onEnded={onEnded}
+          onError={onError}
+        />
       </div>
 
-      {videoLoaded &&
+      {videoLoaded && (
         <>
-          <Slider className="video__volume-slider" vertical={true} value={Number(video.volume)} onChange={setVideoVolume} />
-          <Slider range className="video__range-slider" max={duration} value={[Number(video.start), Number(video.end)]} onChange={setVideoRange} />
-          <div className="video__info">{`Volume: ${video.volume} — Range: ${timeFormat(Number(video.start))} → ${timeFormat(Number(video.end))}`}</div>
+          <Slider
+            className="video__volume-slider"
+            vertical={true}
+            value={Number(video.volume)}
+            onChange={setVideoVolume}
+          />
+          <Slider
+            range
+            className="video__range-slider"
+            max={duration}
+            value={[Number(video.start), Number(video.end)]}
+            onChange={setVideoRange}
+          />
+          <div className="video__info">{`Volume: ${
+            video.volume
+          } — Range: ${timeFormat(Number(video.start))} → ${timeFormat(
+            Number(video.end)
+          )}`}</div>
         </>
-      }
+      )}
 
       <div className="video__buttons">
-        {canMove &&
-          <Button className="video__move-handle">Move</Button>
-        }
-        <Button color="red" onClick={() => removeVideo(video.id)}>Remove Video</Button>
+        {canMove && <Button className="video__move-handle">Move</Button>}
+        <Button color="red" onClick={() => removeVideo(video.id)}>
+          Remove Video
+        </Button>
       </div>
     </div>
   )

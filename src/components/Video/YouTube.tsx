@@ -1,6 +1,10 @@
 import React, { FunctionComponent, useRef, useEffect } from 'react'
 import loadYouTubeAPI from '../../utils/loadYouTubeAPI'
-import { YOUTUBE_PLAYER_STATE_PLAYING, YOUTUBE_PLAYER_STATE_PAUSED, YOUTUBE_PLAYER_STATE_ENDED } from '../../utils/constants'
+import {
+  YOUTUBE_PLAYER_STATE_PLAYING,
+  YOUTUBE_PLAYER_STATE_PAUSED,
+  YOUTUBE_PLAYER_STATE_ENDED,
+} from '../../utils/constants'
 
 type YouTubeProps = {
   youtubeId: string
@@ -11,7 +15,14 @@ type YouTubeProps = {
   onError?: () => void
 }
 
-const YouTube: FunctionComponent<YouTubeProps> = ({ youtubeId, onReady, onPlaying, onPaused, onEnded, onError }) => {
+const YouTube: FunctionComponent<YouTubeProps> = ({
+  youtubeId,
+  onReady,
+  onPlaying,
+  onPaused,
+  onEnded,
+  onError,
+}) => {
   const container = useRef<HTMLDivElement>(null)
 
   const handleReady = (player: any) => {
@@ -51,16 +62,14 @@ const YouTube: FunctionComponent<YouTubeProps> = ({ youtubeId, onReady, onPlayin
           events: {
             onReady: () => handleReady(player),
             onError: handleError,
-            onStateChange: (event: any) => handleStateChange(event, player)
-          }
+            onStateChange: (event: any) => handleStateChange(event, player),
+          },
         })
       }
     })
   })
 
-  return (
-    <div ref={container}></div>
-  )
+  return <div ref={container}></div>
 }
 
 export default YouTube

@@ -69,13 +69,28 @@ interface stopVideoAction {
   payload: null
 }
 
-type ActionByType<T extends ActionType['type'], A = ActionType> = A extends {type: T} ? A : never
+type ActionByType<T extends ActionType['type'], A = ActionType> = A extends {
+  type: T
+}
+  ? A
+  : never
 
-export type ActionType = addVideoByYouTubeIdAction | addVideoAction | removeVideoAction
-  | editVideoAction| updateVideosAction | playVideoAction | playFirstVideoAction
-  | playPreviousVideoAction | playNextVideoAction | stopVideoAction
+export type ActionType =
+  | addVideoByYouTubeIdAction
+  | addVideoAction
+  | removeVideoAction
+  | editVideoAction
+  | updateVideosAction
+  | playVideoAction
+  | playFirstVideoAction
+  | playPreviousVideoAction
+  | playNextVideoAction
+  | stopVideoAction
 
-export type ReducerHandler<T extends ActionType['type']> = (state: State, action: ActionByType<T>) => State
+export type ReducerHandler<T extends ActionType['type']> = (
+  state: State,
+  action: ActionByType<T>
+) => State
 
 export type ReducerMap = {
   [T in ActionType['type']]?: ReducerHandler<T>

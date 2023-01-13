@@ -8,7 +8,12 @@ type ButtonProps = {
   children: React.ReactNode
 }
 
-export const Button: FunctionComponent<ButtonProps> = ({ className = '', color, onClick, children }) => {
+export const Button: FunctionComponent<ButtonProps> = ({
+  className = '',
+  color,
+  onClick,
+  children,
+}) => {
   let buttonClass = className ? className + ' button' : 'button'
 
   if (color) {

@@ -14,19 +14,21 @@ const initialState: State = {
   videos: [],
   playingVideo: null,
   isPaused: false,
-  ...state
+  ...state,
 }
 
 const store = configureStore(initialState)
 
-store.subscribe(throttle(() => {
-  saveState(store.getState())
-}, 1000))
+store.subscribe(
+  throttle(() => {
+    saveState(store.getState())
+  }, 1000)
+)
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 )

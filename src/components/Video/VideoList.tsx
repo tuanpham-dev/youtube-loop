@@ -8,13 +8,13 @@ import './VideoList.css'
 import Video from './Video'
 
 const mapStateToProps = (state: State) => ({
-  videos: state.videos
+  videos: state.videos,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   updateVideos: (videos: TypeVideo[]) => {
     dispatch(updateVideos(videos))
-  }
+  },
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -22,15 +22,24 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type PropsFromRedux = ConnectedProps<typeof connector>
 type VideoListProps = PropsFromRedux
 
-export const VideoList: FunctionComponent<VideoListProps> = ({ videos, updateVideos }) => {
+export const VideoList: FunctionComponent<VideoListProps> = ({
+  videos,
+  updateVideos,
+}) => {
   if (!videos.length) {
     return null
   }
 
   return (
     <div>
-      <ReactSortable tag="ul" list={videos} setList={updateVideos} handle=".video__move-handle" className="video-list">
-        {videos.map(video => (
+      <ReactSortable
+        tag="ul"
+        list={videos}
+        setList={updateVideos}
+        handle=".video__move-handle"
+        className="video-list"
+      >
+        {videos.map((video) => (
           <li key={video.id} className="video-item">
             <Video video={video} />
           </li>

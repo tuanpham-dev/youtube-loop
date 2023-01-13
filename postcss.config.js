@@ -4,6 +4,9 @@ module.exports = {
     require('postcss-mixins'),
     require('postcss-flexbugs-fixes'),
     require('postcss-nested'),
-    require('postcss-preset-env')({ stage: 1, features: { 'nesting-rules': false } })
-  ]
+    require('postcss-preset-env')({
+      stage: 1,
+      features: { 'nesting-rules': false },
+    }),
+  ],
 }

@@ -2,13 +2,19 @@ import React, { FunctionComponent, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { State } from '../../store/types'
 import Button from '../Button/Button'
-import { addVideoByYouTubeId, stopVideo, playNextVideo, playPreviousVideo, playFirstVideo } from '../../store/actions'
+import {
+  addVideoByYouTubeId,
+  stopVideo,
+  playNextVideo,
+  playPreviousVideo,
+  playFirstVideo,
+} from '../../store/actions'
 import { Dispatch } from 'redux'
 import './Header.css'
 
 const mapStateToProps = (state: State) => ({
   videos: state.videos,
-  playingVideo: state.playingVideo
+  playingVideo: state.playingVideo,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -26,7 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
   onPreviousButtonClick: () => {
     dispatch(playPreviousVideo())
-  }
+  },
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -34,7 +40,15 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type PropsFromRedux = ConnectedProps<typeof connector>
 type HeaderProps = PropsFromRedux
 
-export const Header: FunctionComponent<HeaderProps> = ({ videos, playingVideo, onAddButtonClick, onPlayButtonClick, onStopButtonClick, onPreviousButtonClick, onNextButtonClick }) => {
+export const Header: FunctionComponent<HeaderProps> = ({
+  videos,
+  playingVideo,
+  onAddButtonClick,
+  onPlayButtonClick,
+  onStopButtonClick,
+  onPreviousButtonClick,
+  onNextButtonClick,
+}) => {
   const [input, setInput] = useState('')
 
   const videosCount = videos.length
@@ -44,33 +58,39 @@ export const Header: FunctionComponent<HeaderProps> = ({ videos, playingVideo, o
   return (
     <header className="header">
       <div className="container">
-        <a href="/" className="header__logo">YouTube Loop</a>
+        <a href="/" className="header__logo">
+          YouTube Loop
+        </a>
 
-        {videosCount > 0 &&
+        {videosCount > 0 && (
           <div className="header__controls">
-            {isPlaying?
+            {isPlaying ? (
               <Button onClick={onStopButtonClick}>Stop</Button>
-              :
+            ) : (
               <Button onClick={onPlayButtonClick}>Play</Button>
-            }
+            )}
 
-            {canPlayPrevNext &&
+            {canPlayPrevNext && (
               <>
                 <Button onClick={onPreviousButtonClick}>Previous</Button>
                 <Button onClick={onNextButtonClick}>Next</Button>
               </>
-            }
+            )}
           </div>
-        }
+        )}
 
         <div className="header__input-group">
-          <input type="text" className="header__input"
+          <input
+            type="text"
+            className="header__input"
             placeholder="Enter YouTube URL or Video ID"
             value={input}
-            onChange={event => setInput(event.target.value)}
+            onChange={(event) => setInput(event.target.value)}
           />
           <div className="header__input-group-append">
-            <Button color="blue" onClick={() => onAddButtonClick(input)}>Go Loop!</Button>
+            <Button color="blue" onClick={() => onAddButtonClick(input)}>
+              Go Loop!
+            </Button>
           </div>
         </div>
       </div>

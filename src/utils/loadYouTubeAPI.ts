@@ -27,7 +27,7 @@ const loadYouTubeAPI = () => {
   })
 }
 
-let api: YTWindow['YT']  = null
+let api: YTWindow['YT'] = null
 
 export const getYouTubeAPI = () => {
   if (!api) {
