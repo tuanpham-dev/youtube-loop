@@ -20,5 +20,3 @@ Repeat YouTube videos. Demo: https://tuanpham-dev.github.io/youtube-loop/
 - ✅ Configure start and end range for each video
 - ✅ Shuffle videos
 - ✅ Pause/resume video
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
