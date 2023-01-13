@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, KeyboardEvent, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { State } from '../../store/types'
 import Button from '../Button/Button'
@@ -20,7 +20,7 @@ const mapStateToProps = (state: State) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onAddButtonClick: (input: string) => {
+  addVideo: (input: string) => {
     dispatch(addVideoByYouTubeId(input))
   },
   onPlayButtonClick: () => {
@@ -49,7 +49,7 @@ export const Header: FunctionComponent<HeaderProps> = ({
   videos,
   playingVideo,
   isPaused,
-  onAddButtonClick,
+  addVideo,
   onPlayButtonClick,
   onStopButtonClick,
   onShuffleButtonClick,
@@ -61,6 +61,12 @@ export const Header: FunctionComponent<HeaderProps> = ({
   const videosCount = videos.length
   const isPlaying = playingVideo !== null
   const canPlayPrevNext = isPlaying && videosCount > 1
+
+  const addVideoIfEnter = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      addVideo(input)
+    }
+  }
 
   return (
     <header className="header">
@@ -95,9 +101,10 @@ export const Header: FunctionComponent<HeaderProps> = ({
             placeholder="Enter YouTube URL or Video ID"
             value={input}
             onChange={(event) => setInput(event.target.value)}
+            onKeyUp={addVideoIfEnter}
           />
           <div className="header__input-group-append">
-            <Button color="blue" onClick={() => onAddButtonClick(input)}>
+            <Button color="blue" onClick={() => addVideo(input)}>
               Go Loop!
             </Button>
           </div>
