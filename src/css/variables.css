@@ -1,7 +1,7 @@
 :root {
-  --font-default: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol';
+  --font-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
 
   --color-black: #212529;
   --color-white: #ffffff;
@@ -25,7 +25,3 @@
   --tablet: 1008px;
   --laptop: 1140px;
 }
-
-@custom-media --phone (min-width: 640px);
-@custom-media --tablet (min-width: 1008px);
-@custom-media --laptop (min-width: 1140px);
