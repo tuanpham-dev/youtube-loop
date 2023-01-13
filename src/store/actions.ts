@@ -9,7 +9,8 @@ import {
   PLAY_VIDEO,
   PLAY_PREVIOUS_VIDEO,
   PLAY_NEXT_VIDEO,
-  PLAY_FIRST_VIDEO,
+  UNPAUSE_OR_PLAY_FIRST_VIDEO,
+  PAUSE_VIDEO
 } from './types'
 import getYouTubeVideoId from '../utils/getYouTubeVideoId'
 
@@ -47,8 +48,8 @@ export const playVideo = (videoId: number): ActionType => ({
   payload: videoId,
 })
 
-export const playFirstVideo = (): ActionType => ({
-  type: PLAY_FIRST_VIDEO,
+export const unpauseOrPlayFirstVideo = (): ActionType => ({
+  type: UNPAUSE_OR_PLAY_FIRST_VIDEO,
 })
 
 export const playPreviousVideo = (): ActionType => ({
@@ -62,4 +63,9 @@ export const playNextVideo = (): ActionType => ({
 export const stopVideo = (): ActionType => ({
   type: PLAY_VIDEO,
   payload: null,
+})
+
+export const pauseVideo = (): ActionType => ({
+  type: PAUSE_VIDEO,
+  payload: null
 })

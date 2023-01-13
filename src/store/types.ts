@@ -17,9 +17,10 @@ export const ADD_VIDEO = 'ADD_VIDEO'
 export const REMOVE_VIDEO = 'REMOVE_VIDEO'
 export const EDIT_VIDEO = 'EDIT_VIDEO'
 export const PLAY_VIDEO = 'PLAY_VIDEO'
-export const PLAY_FIRST_VIDEO = 'PLAY_FIRST_VIDEO'
+export const UNPAUSE_OR_PLAY_FIRST_VIDEO = 'UNPAUSE_OR_PLAY_FIRST_VIDEO'
 export const PLAY_NEXT_VIDEO = 'PLAY_NEXT_VIDEO'
 export const PLAY_PREVIOUS_VIDEO = 'PLAY_PREVIOUS_VIDEO'
+export const PAUSE_VIDEO = 'PAUSE_VIDEO'
 export const UPDATE_VIDEOS = 'UPDATE_VIDEOS'
 
 interface addVideoByYouTubeIdAction {
@@ -52,8 +53,8 @@ interface playVideoAction {
   payload: number
 }
 
-interface playFirstVideoAction {
-  type: typeof PLAY_FIRST_VIDEO
+interface unpauseOrPlayFirstVideoAction {
+  type: typeof UNPAUSE_OR_PLAY_FIRST_VIDEO
 }
 
 interface playPreviousVideoAction {
@@ -66,6 +67,11 @@ interface playNextVideoAction {
 
 interface stopVideoAction {
   type: typeof PLAY_VIDEO
+  payload: null
+}
+
+interface pauseVideoAction {
+  type: typeof PAUSE_VIDEO
   payload: null
 }
 
@@ -82,10 +88,11 @@ export type ActionType =
   | editVideoAction
   | updateVideosAction
   | playVideoAction
-  | playFirstVideoAction
+  | unpauseOrPlayFirstVideoAction
   | playPreviousVideoAction
   | playNextVideoAction
   | stopVideoAction
+  | pauseVideoAction
 
 export type ReducerHandler<T extends ActionType['type']> = (
   state: State,

@@ -7,7 +7,7 @@ import {
   stopVideo,
   playNextVideo,
   playPreviousVideo,
-  playFirstVideo,
+  unpauseOrPlayFirstVideo,
 } from '../../store/actions'
 import { Dispatch } from 'redux'
 import './Header.css'
@@ -15,6 +15,7 @@ import './Header.css'
 const mapStateToProps = (state: State) => ({
   videos: state.videos,
   playingVideo: state.playingVideo,
+  isPaused: state.isPaused
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -22,7 +23,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(addVideoByYouTubeId(input))
   },
   onPlayButtonClick: () => {
-    dispatch(playFirstVideo())
+    dispatch(unpauseOrPlayFirstVideo())
   },
   onStopButtonClick: () => {
     dispatch(stopVideo())
@@ -43,6 +44,7 @@ type HeaderProps = PropsFromRedux
 export const Header: FunctionComponent<HeaderProps> = ({
   videos,
   playingVideo,
+  isPaused,
   onAddButtonClick,
   onPlayButtonClick,
   onStopButtonClick,
@@ -64,10 +66,10 @@ export const Header: FunctionComponent<HeaderProps> = ({
 
         {videosCount > 0 && (
           <div className="header__controls">
-            {isPlaying ? (
+            {isPlaying && !isPaused ? (
               <Button onClick={onStopButtonClick}>Stop</Button>
             ) : (
-              <Button onClick={onPlayButtonClick}>Play</Button>
+              <Button onClick={onPlayButtonClick}>{isPaused ? 'Resume' : 'Play'}</Button>
             )}
 
             {canPlayPrevNext && (

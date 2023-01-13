@@ -7,6 +7,7 @@ import {
   editVideo,
   playVideo,
   playNextVideo,
+  pauseVideo
 } from '../../store/actions'
 import { SITE_TITLE, YOUTUBE_PLAYER_STATE_PLAYING } from '../../utils/constants'
 import YouTube from './YouTube'
@@ -19,6 +20,7 @@ import './Video.css'
 const mapStateToProps = (state: State) => ({
   videos: state.videos,
   playingVideo: state.playingVideo,
+  isPaused: state.isPaused,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -34,6 +36,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   playNextVideo: () => {
     dispatch(playNextVideo())
   },
+  pauseVideo: () => {
+    dispatch(pauseVideo())
+  }
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -47,10 +52,12 @@ export const Video: FunctionComponent<VideoProps> = ({
   video,
   videos,
   playingVideo,
+  isPaused,
   removeVideo,
   editVideo,
   playVideo,
   playNextVideo,
+  pauseVideo,
 }) => {
   const [player, setPlayer] = useState<any>(null)
   const [videoLoaded, setVideoLoaded] = useState(false)
@@ -58,8 +65,9 @@ export const Video: FunctionComponent<VideoProps> = ({
   const [title, setTitle] = useState('')
   const [playingStateChanged, setPlayingStateChanged] = useState(false)
 
-  const canMove = videos.length > 1
   const isPlaying = playingVideo === video.id
+
+  const canMove = videos.length > 1
   const className = 'video' + (isPlaying ? ' video--active' : '')
   const container = useRef<HTMLDivElement>(null)
 
@@ -141,6 +149,12 @@ export const Video: FunctionComponent<VideoProps> = ({
     removeVideo(video.id)
   }
 
+  const onPaused = () => {
+    if (!isPlaying) {
+      pauseVideo()
+    }
+  }
+
   const trackStatus = () => {
     if (player) {
       const currentTime = player.getCurrentTime()
@@ -205,6 +219,14 @@ export const Video: FunctionComponent<VideoProps> = ({
     video.end,
   ])
 
+  useEffect(() => {
+    if (player && !isPaused) {
+      if (isPlaying) {
+        player.playVideo()
+      }
+    }
+  }, [isPaused, isPlaying])
+
   return (
     <div ref={container} className={className}>
       <div className="video__player">
@@ -214,6 +236,7 @@ export const Video: FunctionComponent<VideoProps> = ({
           onPlaying={onPlaying}
           onEnded={onEnded}
           onError={onError}
+          onPaused={onPaused}
         />
       </div>
 
@@ -232,11 +255,10 @@ export const Video: FunctionComponent<VideoProps> = ({
             value={[Number(video.start), Number(video.end)]}
             onChange={setVideoRange}
           />
-          <div className="video__info">{`Volume: ${
-            video.volume
-          } — Range: ${timeFormat(Number(video.start))} → ${timeFormat(
-            Number(video.end)
-          )}`}</div>
+          <div className="video__info">{`Volume: ${video.volume
+            } — Range: ${timeFormat(Number(video.start))} → ${timeFormat(
+              Number(video.end)
+            )}`}</div>
         </>
       )}
 

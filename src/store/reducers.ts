@@ -9,9 +9,10 @@ import {
   EDIT_VIDEO,
   UPDATE_VIDEOS,
   PLAY_VIDEO,
-  PLAY_FIRST_VIDEO,
+  UNPAUSE_OR_PLAY_FIRST_VIDEO,
   PLAY_PREVIOUS_VIDEO,
   PLAY_NEXT_VIDEO,
+  PAUSE_VIDEO,
   ReducerHandler,
 } from './types'
 
@@ -111,16 +112,32 @@ const reducerMap: ReducerMap = {
       return {
         ...state,
         playingVideo: videoId,
+        isPaused: false,
+      }
+    }
+
+    if (state.isPaused) {
+      return {
+        ...state,
+        isPaused: false
       }
     }
 
     return state
   },
 
-  [PLAY_FIRST_VIDEO]: (state) => {
+  [UNPAUSE_OR_PLAY_FIRST_VIDEO]: (state) => {
+    if (state.isPaused && state.playingVideo) {
+      return {
+        ...state,
+        isPaused: false,
+      }
+    }
+
     if (state.videos.length > 0) {
       return {
         ...state,
+        isPaused: false,
         playingVideo: state.videos[0].id,
       }
     }
@@ -171,6 +188,17 @@ const reducerMap: ReducerMap = {
 
     return state
   },
+
+  [PAUSE_VIDEO]: (state) => {
+    if (state.playingVideo) {
+      return {
+        ...state,
+        isPaused: true
+      }
+    }
+
+    return state
+  }
 }
 
 export const rootReducer = (

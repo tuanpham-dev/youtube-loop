@@ -40,7 +40,7 @@ export const VideoList: FunctionComponent<VideoListProps> = ({
         className="video-list"
       >
         {videos.map((video) => (
-          <li key={video.id} className="video-item">
+          <li key={`video-${video.id}`} className="video-item">
             <Video video={video} />
           </li>
         ))}
