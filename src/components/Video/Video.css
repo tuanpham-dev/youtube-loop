@@ -54,6 +54,10 @@
       width: 0.375rem;
     }
 
+    .rc-slider-rail {
+      height: 100%;
+    }
+
     .rc-slider-handle {
       margin-left: -4px;
     }
