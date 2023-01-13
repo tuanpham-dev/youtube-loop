@@ -8,6 +8,7 @@ import {
   playNextVideo,
   playPreviousVideo,
   unpauseOrPlayFirstVideo,
+  shuffleVideos,
 } from '../../store/actions'
 import { Dispatch } from 'redux'
 import './Header.css'
@@ -34,6 +35,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   onPreviousButtonClick: () => {
     dispatch(playPreviousVideo())
   },
+  onShuffleButtonClick: () => {
+    dispatch(shuffleVideos())
+  }
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -48,6 +52,7 @@ export const Header: FunctionComponent<HeaderProps> = ({
   onAddButtonClick,
   onPlayButtonClick,
   onStopButtonClick,
+  onShuffleButtonClick,
   onPreviousButtonClick,
   onNextButtonClick,
 }) => {
@@ -72,11 +77,13 @@ export const Header: FunctionComponent<HeaderProps> = ({
               <Button onClick={onPlayButtonClick}>{isPaused ? 'Resume' : 'Play'}</Button>
             )}
 
-            {canPlayPrevNext && (
+            {canPlayPrevNext ? (
               <>
                 <Button onClick={onPreviousButtonClick}>Previous</Button>
                 <Button onClick={onNextButtonClick}>Next</Button>
               </>
+            ) : (
+              <Button onClick={onShuffleButtonClick}>Shuffle</Button>
             )}
           </div>
         )}

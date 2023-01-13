@@ -22,6 +22,7 @@ export const PLAY_NEXT_VIDEO = 'PLAY_NEXT_VIDEO'
 export const PLAY_PREVIOUS_VIDEO = 'PLAY_PREVIOUS_VIDEO'
 export const PAUSE_VIDEO = 'PAUSE_VIDEO'
 export const UPDATE_VIDEOS = 'UPDATE_VIDEOS'
+export const SHUFFLE_VIDEOS = 'SHUFFLE_VIDEOS'
 
 interface addVideoByYouTubeIdAction {
   type: typeof ADD_VIDEO_BY_YOUTUBE_ID
@@ -75,6 +76,11 @@ interface pauseVideoAction {
   payload: null
 }
 
+interface shuffleVideosAction {
+  type: typeof SHUFFLE_VIDEOS
+  payload: null
+}
+
 type ActionByType<T extends ActionType['type'], A = ActionType> = A extends {
   type: T
 }
@@ -93,6 +99,7 @@ export type ActionType =
   | playNextVideoAction
   | stopVideoAction
   | pauseVideoAction
+  | shuffleVideosAction
 
 export type ReducerHandler<T extends ActionType['type']> = (
   state: State,

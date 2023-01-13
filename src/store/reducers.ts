@@ -1,3 +1,4 @@
+import shuffle from 'array-shuffle'
 import {
   Video,
   State,
@@ -14,6 +15,7 @@ import {
   PLAY_NEXT_VIDEO,
   PAUSE_VIDEO,
   ReducerHandler,
+  SHUFFLE_VIDEOS,
 } from './types'
 
 const initialState: State = {
@@ -194,6 +196,17 @@ const reducerMap: ReducerMap = {
       return {
         ...state,
         isPaused: true
+      }
+    }
+
+    return state
+  },
+
+  [SHUFFLE_VIDEOS]: (state) => {
+    if (state.videos.length) {
+      return {
+        ...state,
+        videos: shuffle(state.videos)
       }
     }
 

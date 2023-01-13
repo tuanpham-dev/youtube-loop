@@ -10,7 +10,8 @@ import {
   PLAY_PREVIOUS_VIDEO,
   PLAY_NEXT_VIDEO,
   UNPAUSE_OR_PLAY_FIRST_VIDEO,
-  PAUSE_VIDEO
+  PAUSE_VIDEO,
+  SHUFFLE_VIDEOS
 } from './types'
 import getYouTubeVideoId from '../utils/getYouTubeVideoId'
 
@@ -67,5 +68,10 @@ export const stopVideo = (): ActionType => ({
 
 export const pauseVideo = (): ActionType => ({
   type: PAUSE_VIDEO,
+  payload: null
+})
+
+export const shuffleVideos = (): ActionType => ({
+  type: SHUFFLE_VIDEOS,
   payload: null
 })
