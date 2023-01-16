@@ -39,8 +39,8 @@ export const VideoList: FunctionComponent<VideoListProps> = ({
         handle=".video__move-handle"
         className="video-list"
       >
-        {videos.map((video) => (
-          <li key={`video-${video.id}`} className="video-item">
+        {videos.map((video, index) => (
+          <li key={`video-${video.id}-idx-${index}`} className="video-item">
             <Video video={video} />
           </li>
         ))}
